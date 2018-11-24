@@ -2,10 +2,7 @@ package fr.technocrats.greenitbackend.movies;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -14,7 +11,8 @@ import javax.persistence.Table;
 public class Movie {
     @Id
     @Column
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column
     private String title;
@@ -25,7 +23,7 @@ public class Movie {
     @Column
     private String backdrop_path;
 
-    @Column
+    @Column(length = 1024)
     private String overview;
 
     @Column

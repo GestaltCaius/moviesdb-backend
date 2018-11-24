@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -19,13 +21,28 @@ public class MovieService {
     @Value("${tmdb_api_key}")
     private String tmdbApiKey;
 
+    @Autowired
+    private MovieDao movieDao;
+
     private RestTemplate restTemplate = new RestTemplate();
 
 
-    public List<Movie> fillDatabase() {
+    /**
+     * Request the first 20 most popular movies from TMDB and then put the movies into the database
+     * @return HTTP status code (CREATED or BAD REQUEST)
+     */
+    public ResponseEntity<String> fillDatabase() {
         MovieWrapper movieWrapper = restTemplate.getForObject(
                 tmdbBaseUrl + "/movie/popular?api_key=" + tmdbApiKey,
                 MovieWrapper.class);
-        return movieWrapper.getResults();
+        List<Movie> movieList = movieWrapper.getResults();
+
+        try {
+            movieDao.addMovieList(movieList);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
     }
 }
