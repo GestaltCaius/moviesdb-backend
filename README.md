@@ -27,8 +27,21 @@ sudo -u postgres createdb moviesdb -O technocrats
 ```
 
 
+Edit those two lines, so Spring Boot can access our database (md5 and peer to trust):
 ```
 sudo vim /etc/postgresql/10/main/pg_hba.conf
+```
+> ```
+> # "local" is for Unix domain socket connections only
+> local   all             all                                     trust
+> # IPv4 local connections:
+> host    all             all             127.0.0.1/32            trust
+> ```
+
+Restart database.
+```
 sudo service postgresql restart
 psql -U technocrats -d moviesdb -W
 ```
+
+You're done.
