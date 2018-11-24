@@ -43,6 +43,11 @@ public class MovieService {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
     }
+
+    /**
+     * Find all movies from database
+     * @return movies list
+     */
+    public List<Movie> findAll() { return movieDao.findAll(); }
 }

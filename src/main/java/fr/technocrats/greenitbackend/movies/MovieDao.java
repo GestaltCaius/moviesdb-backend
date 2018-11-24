@@ -16,4 +16,7 @@ public interface MovieDao extends CrudRepository<Movie, Integer> {
             this.save(movie);
         });
     }
+
+    @Transactional
+    List<Movie> findAll();
 }
