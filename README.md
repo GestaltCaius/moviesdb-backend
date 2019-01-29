@@ -2,12 +2,19 @@
 
 Install postgresql
 ```sh
-sudo apt-get install postgresql
+sudo apt-get install postgresql # on Ubuntu
+sudo pacman -S postgresql # on archlinux
 ```
 
 check if postgresql has been installed
 ```
-/etc/init.d/postgresql status
+/etc/init.d/postgresql status # on Ubuntu
+
+# On ArchLinux
+sudo -u postgres -i
+initdb -D '/var/lib/postgres/data'
+systemctl start postgresql            
+systemctl enable postgresql
 ```
 
 create *technocrats* user
@@ -45,3 +52,7 @@ psql -U technocrats -d moviesdb -W
 ```
 
 You're done.
+
+# References
+
+[ZetCode Get Started with PostgreSQL and Spring Boot](http://zetcode.com/springboot/postgresql/)
