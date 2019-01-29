@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MovieDao extends CrudRepository<Movie, Integer> {
@@ -19,4 +20,7 @@ public interface MovieDao extends CrudRepository<Movie, Integer> {
 
     @Transactional
     List<Movie> findAll();
+
+    @Transactional
+    Optional<Movie> findById(Integer id);
 }

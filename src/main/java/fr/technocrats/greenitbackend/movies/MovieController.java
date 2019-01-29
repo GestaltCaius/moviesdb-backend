@@ -2,12 +2,13 @@ package fr.technocrats.greenitbackend.movies;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,25 @@ public class MovieController {
 
     @RequestMapping(value = "/filldatabase", method = RequestMethod.GET)
     @ApiOperation(value = "Fill database with movies from TheMovieDB API")
-    public ResponseEntity<String> fillDatabase() {
+    public @ResponseBody
+    ResponseEntity<String> fillDatabase() {
         return movieService.fillDatabase();
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @ApiOperation(value = "Get all movies")
+    public @ResponseBody
+    List<Movie> getMovies() {
+        return movieService.findAll();
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "Get a movie by its ID")
+    public @ResponseBody
+    Movie getMovie(
+            @ApiParam(name = "id", value = "Movie's ID")
+            @PathVariable("id") Integer id
+    ) {
+        return movieService.findOne(id);
     }
 }

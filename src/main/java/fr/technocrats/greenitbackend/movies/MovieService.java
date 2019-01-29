@@ -50,4 +50,13 @@ public class MovieService {
      * @return movies list
      */
     public List<Movie> findAll() { return movieDao.findAll(); }
+
+    /**
+     * Get a movie
+     * @param id movie's id
+     * @return movie which id = `id`
+     */
+    public Movie findOne(Integer id) {
+        return movieDao.findById(id).orElse(null);
+    }
 }
