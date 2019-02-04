@@ -28,4 +28,9 @@ public class Movie {
 
     @Column
     private String release_date;
+
+    @Column
+    private Integer vote_average;
+
+    // TODO     @ApiModelProperty(value = "description", allowableValues = "X, Y")
 }
