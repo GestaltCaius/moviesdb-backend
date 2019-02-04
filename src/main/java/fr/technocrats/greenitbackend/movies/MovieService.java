@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +21,9 @@ public class MovieService {
 
     @Value("${tmdb_api_key}")
     private String tmdbApiKey;
+
+    @Value("${tmdb_image_path_base_url}")
+    private String tmdbImageBaseUrl;
 
     @Autowired
     private MovieDao movieDao;
@@ -32,13 +36,19 @@ public class MovieService {
      * @return HTTP status code (CREATED or BAD REQUEST)
      */
     public ResponseEntity<String> fillDatabase() {
-        MovieWrapper movieWrapper = restTemplate.getForObject(
-                tmdbBaseUrl + "/movie/popular?api_key=" + tmdbApiKey,
-                MovieWrapper.class);
-        List<Movie> movieList = movieWrapper.getResults();
+        List<Movie> movieList = new ArrayList<>();
+        final String requestUrl = tmdbBaseUrl + "/movie/popular?api_key=" + tmdbApiKey + "&page=";
+
+        // add first 100 pages of popular movies from TMDB
+        for (int i = 1; i <= 20; i++) {
+            MovieWrapper movieWrapper = restTemplate.getForObject(
+                    requestUrl + i,
+                    MovieWrapper.class);
+            movieList.addAll(movieWrapper.getResults());
+        }
 
         try {
-            movieDao.addMovieList(movieList);
+            movieDao.addMovieList(movieList, tmdbImageBaseUrl);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
