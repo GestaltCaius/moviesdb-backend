@@ -1,6 +1,5 @@
 package fr.technocrats.greenitbackend.movies;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
