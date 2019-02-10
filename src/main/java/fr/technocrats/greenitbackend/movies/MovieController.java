@@ -18,21 +18,21 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @RequestMapping(value = "/filldatabase", method = RequestMethod.GET)
+    @GetMapping("/filldatabase")
     @ApiOperation(value = "Fill database with movies from TheMovieDB API")
     public @ResponseBody
     ResponseEntity<String> fillDatabase() {
         return movieService.fillDatabase();
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping("/")
     @ApiOperation(value = "Get all movies")
     public @ResponseBody
     List<Movie> getMovies() {
         return movieService.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     @ApiOperation(value = "Get a movie by its ID")
     public @ResponseBody
     Movie getMovie(
