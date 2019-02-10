@@ -18,8 +18,8 @@ public interface MovieDao extends CrudRepository<Movie, Integer> {
             movie.setId(null);
             // add tmdb base url to path
             // path provided by TMDB API do not include the whole URL so we have to add it ourselves
-            movie.setBackdrop_path(String.format("%s%s", imageBaseUrl, movie.getBackdrop_path()));
-            movie.setPoster_path(String.format("%s%s", imageBaseUrl, movie.getPoster_path()));
+            movie.setBackdropPath(String.format("%s%s", imageBaseUrl, movie.getBackdropPath()));
+            movie.setPosterPath(String.format("%s%s", imageBaseUrl, movie.getPosterPath()));
             this.save(movie);
         });
     }

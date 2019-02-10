@@ -1,5 +1,6 @@
 package fr.technocrats.greenitbackend.movies;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -22,11 +23,13 @@ public class Movie {
 
     @Column
     @ApiModelProperty(value = "Movie poster")
-    private String poster_path;
+    @JsonProperty("poster_path")
+    private String posterPath;
 
     @Column
     @ApiModelProperty(value = "Background image for the movie")
-    private String backdrop_path;
+    @JsonProperty("backdrop_path")
+    private String backdropPath;
 
     @Column(length = 1024)
     @ApiModelProperty(value = "Synopsis")
@@ -34,10 +37,12 @@ public class Movie {
 
     @Column
     @ApiModelProperty(value = "Release date")
-    private String release_date;
+    @JsonProperty("release_date")
+    private String releaseDate;
 
     @Column
     @ApiModelProperty(value = "Rating (0 to 10)")
-    private Integer vote_average;
+    @JsonProperty("vote_average")
+    private Integer voteAverage;
 
 }
